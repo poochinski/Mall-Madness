@@ -26,7 +26,7 @@ public:
 	virtual void Tick(float Dt) override;
 
 	/** Returns true if the hit killed the zombie. */
-	bool ApplyHit(float Damage, bool bHead, const FVector& Dir, AActor* Instigator);
+	bool ApplyHit(float Damage, bool bHead, const FVector& Dir, AActor* InInstigator);
 	void HearNoise(const FVector& Location, float Radius);
 	bool IsDead() const { return State == EZombieState::Dead; }
 

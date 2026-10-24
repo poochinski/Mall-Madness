@@ -70,10 +70,10 @@ void AMallZombie::Setup(EZombieKind InKind, int32 Seed)
 	Variant = R.RandRange(0, 99);
 
 	const bool bQuinn = R.FRand() < 0.45f;
-	USkeletalMesh* Mesh = LoadObject<USkeletalMesh>(nullptr, bQuinn
+	USkeletalMesh* BodyMesh = LoadObject<USkeletalMesh>(nullptr, bQuinn
 		? TEXT("/Game/Characters/Mannequins/Meshes/SKM_Quinn_Simple.SKM_Quinn_Simple")
 		: TEXT("/Game/Characters/Mannequins/Meshes/SKM_Manny_Simple.SKM_Manny_Simple"));
-	GetMesh()->SetSkeletalMesh(Mesh);
+	GetMesh()->SetSkeletalMesh(BodyMesh);
 
 	LocoAnim = LoadObject<UAnimationAsset>(nullptr, TEXT("/Game/Characters/Mannequins/Anims/Unarmed/BS_Idle_Walk_Run.BS_Idle_Walk_Run"));
 	for (const TCHAR* P : {TEXT("MM_Attack_01"), TEXT("MM_Attack_02"), TEXT("MM_Attack_03")})
@@ -299,7 +299,7 @@ void AMallZombie::HearNoise(const FVector& Location, float Radius)
 	}
 }
 
-bool AMallZombie::ApplyHit(float Damage, bool bHead, const FVector& Dir, AActor* Instigator)
+bool AMallZombie::ApplyHit(float Damage, bool bHead, const FVector& Dir, AActor* InInstigator)
 {
 	if (IsDead())
 	{
@@ -312,9 +312,9 @@ bool AMallZombie::ApplyHit(float Damage, bool bHead, const FVector& Dir, AActor*
 		Die(Dir);
 		return true;
 	}
-	if (Instigator)
+	if (InInstigator)
 	{
-		TargetLoc = Instigator->GetActorLocation();
+		TargetLoc = InInstigator->GetActorLocation();
 		LastSeenTime = Age;
 		RepathTimer = 0.f;
 	}
